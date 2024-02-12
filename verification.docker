@@ -18,6 +18,7 @@ ENV LLVM_VERSION=3.4 \
     USE_CMAKE=1 \
     ASAN_BUILD=0 \
     UBSAN_BUILD=0 \
+    LD_LIBRARY_PATH=/home/klee/klee_build/stp/build/lib \
     TRAVIS_OS_NAME=linux
 
 RUN apt-get update && \
