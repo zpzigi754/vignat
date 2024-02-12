@@ -107,9 +107,9 @@ RUN sed -i '/# Unit tests/a exit 0' ${KLEE_SRC}/.travis/klee.sh
 
 RUN cd ${BUILD_DIR} && ${KLEE_SRC}/.travis/klee.sh
 
-RUN echo 'apt-get update && apt-get install -y --no-install-recommends linux-headers-$(uname -r) && apt-get clean'>install-linux-headers.sh
+RUN echo 'apt-get update && apt-get install -y --no-install-recommends linux-headers-4.4.0-142-generic && apt-get clean'>install-linux-headers.sh
 
-#RUN bash install-linux-headers.sh
+RUN bash install-linux-headers.sh
 
 # Install the principal body of required packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
