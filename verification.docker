@@ -159,8 +159,8 @@ RUN wget http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz -O dpdk.tar.gz &
 
 # Build DPDK
 WORKDIR /home/vigor/dpdk
-#RUN sed -ri 's,(PMD_PCAP=).*,\1y,' config/common_linuxapp && \
-#    make config install -j4 T=x86_64-native-linuxapp-gcc
+RUN sed -ri 's,(PMD_PCAP=).*,\1y,' config/common_linuxapp && \
+    make config install -j4 T=x86_64-native-linuxapp-gcc RTE_KERNELDIR=/lib/modules/4.4.0-142-generic/build
 
 ENV RTE_SDK=/home/vigor/dpdk \
     RTE_TARGET=x86_64-native-linuxapp-gcc
