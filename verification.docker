@@ -45,6 +45,7 @@ RUN apt-get update && \
         patch \
         wget \
         unzip \
+        camlp4-extra \
         binutils && \
     pip3 install -U lit tabulate && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 50 && \
@@ -147,10 +148,13 @@ RUN sudo chown --recursive vigor: ${BUILD_DIR}
 # Download and extract DPDK
 WORKDIR /home/vigor
 
+# -k means that the outdated certificate check will be bypassed in curl
+RUN echo '-k'>/home/vigor/.curlrc
+
 # And install those libraries
-#RUN opam init -a -y && \
-#    echo "eval \`opam config env\`" >> /home/vigor/.bashrc && \
-#    opam install ocamlfind core.112.35.00 sexplib.112.35.00 menhir -y
+RUN opam init -a -y --disable-sandboxing && \
+    echo "eval \`opam config env\`" >> /home/vigor/.bashrc && \
+    opam install ocamlfind core.112.35.00 sexplib.112.35.00 menhir -y
 
 RUN wget http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz -O dpdk.tar.gz && \
     tar xf dpdk.tar.gz && \
