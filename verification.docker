@@ -131,6 +131,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ^^ last line to avoid the apparmor issue for running
 # libcrypto.so in --privileged
 
+# Set-up OPAM for ocaml corebuild util and the Core library
+RUN add-apt-repository ppa:avsm/ppa && apt-get update && \
+    apt-get install -y --no-install-recommends m4 ocaml opam && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN useradd -m vigor && \
     echo vigor:vigor | chpasswd && \
     cp /etc/sudoers /etc/sudoers.bak && \
@@ -145,6 +151,11 @@ WORKDIR /home/vigor
 
 # -k means that the outdated certificate check will be bypassed in curl
 RUN echo '-k'>/home/vigor/.curlrc
+
+# The belows are required for executing validator
+RUN opam init -a -y --disable-sandboxing && \
+    echo "eval \`opam config env\`" >> /home/vigor/.bashrc && \
+    opam install ocamlfind core.112.35.00 sexplib.112.35.00 menhir -y
 
 RUN wget http://dpdk.org/browse/dpdk/snapshot/dpdk-16.04.tar.gz -O dpdk.tar.gz && \
     tar xf dpdk.tar.gz && \
