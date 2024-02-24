@@ -57,7 +57,7 @@ RUN apt-get update && \
 
 # Download and build Klee
 RUN mkdir -p ${KLEE_SRC}
-RUN git clone --depth 1 -b timed-access-dirty https://github.com/zpzigi754/vignat-klee ${KLEE_SRC}
+RUN git clone --depth 1 -b timed-access-dirty https://github.com/zpzigi754/klee ${KLEE_SRC}
 
 # Create build directory
 RUN mkdir -p ${BUILD_DIR}
